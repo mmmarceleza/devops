@@ -60,3 +60,41 @@ oc login -u <username>
 ```
 oc whoami
 ```
+
+- Updating users for an HTPasswd identity provider
+
+Retrieve the HTPasswd file from the `htpass-secret` secret object and save the file to your file system:
+
+```
+oc get secret htpass-secret -ojsonpath={.data.htpasswd} -n openshift-config | base64 --decode > users.htpasswd
+```
+
+To add a new user:
+
+```
+htpasswd -bB users.htpasswd <username> <password>
+```
+
+To remove an existing user:
+
+```
+htpasswd -D users.htpasswd <username>
+```
+
+Replace the `htpass-secret` secret object with the updated users in the `users.htpasswd` file:
+
+```
+oc create secret generic htpass-secret --from-file=htpasswd=users.htpasswd --dry-run=client -o yaml -n openshift-config | oc replace -f -
+```
+
+If you removed one or more users, you must additionally remove existing resources for each user:
+
+```
+oc delete user <username>
+```
+
+Delete the Identity object for the user:
+
+```
+oc delete identity my_htpasswd_provider:<username>
+```
