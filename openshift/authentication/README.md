@@ -98,3 +98,32 @@ Delete the Identity object for the user:
 ```
 oc delete identity my_htpasswd_provider:<username>
 ```
+
+## Role Binding/Cluster Role Binding
+
+- Local role binding operations:
+
+| Command	| Description |
+| --- | --- |
+| oc adm policy who-can <verb> <resource> | Indicates which users can perform an action on a resource. |
+| oc adm policy add-role-to-user <role> <username> | Binds a specified role to specified users in the current project. |
+| oc adm policy remove-role-from-user <role> <username> | Removes a given role from specified users in the current project. |
+| oc adm policy remove-user <username> | Removes specified users and all of their roles in the current project. |
+| oc adm policy add-role-to-group <role> <groupname> | Binds a given role to specified groups in the current project. |
+| oc adm policy remove-role-from-group <role> <groupname> | Removes a given role from specified groups in the current project. |
+| oc adm policy remove-group <groupname> | Removes specified groups and all of their roles in the current project. |
+
+- Cluster role binding operations
+
+| Command | Description |
+| --- | --- |
+| oc adm policy add-cluster-role-to-user <role> <username> | Binds a given role to specified users for all projects in the cluster. |
+| oc adm policy remove-cluster-role-from-user <role> <username> | Removes a given role from specified users for all projects in the cluster. |
+| oc adm policy add-cluster-role-to-group <role> <groupname> | Binds a given role to specified groups for all projects in the cluster. |
+| oc adm policy remove-cluster-role-from-group <role> <groupname> | Removes a given role from specified groups for all projects in the cluster. |
+
+- Define the user as a cluster admin:
+
+```
+oc adm policy add-cluster-role-to-user cluster-admin <user>
+```
