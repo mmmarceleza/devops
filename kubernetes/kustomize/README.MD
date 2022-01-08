@@ -10,6 +10,7 @@ Install basic manifests, a deployment and a service, into two different namespac
 
 ## Directory Structure
 
+```
 ├── base
 │   ├── deployment.yaml
 │   ├── kustomization.yaml
@@ -23,6 +24,7 @@ Install basic manifests, a deployment and a service, into two different namespac
         ├── deployment.yaml
         ├── kustomization.yaml
         └── namespace.yaml
+```
 
 ## The Base Configuration
 
