@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+  - ../../base
+
+commonLabels:
+  env: production
+
+resources:
+  - namespace.yaml
+
+namespace: production
+
+patchesStrategicMerge:
+  - deployment.yaml
