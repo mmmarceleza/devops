@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
     # Mount configurations
     #----------------------------------------------------------
     ## Mount local folder inside the VM
-    # config.vm.synced_folder "/local-path", "/vm-path"
+    # config.vm.synced_folder "/local-path", "/vm-path", type: "rsync"
 
     #----------------------------------------------------------
     # Provisioning
