@@ -1,44 +1,74 @@
+#--------------------------------------------------------------
+# Vagrant file to run a simple VM along libvirt provider.
+#
+# Reference docs:
+# 1 - https://github.com/vagrant-libvirt/vagrant-libvirt
+# 2 - https://wiki.archlinux.org/title/Vagrant
+# 3 - https://wiki.archlinux.org/title/Libvirt
+# 4 - https://wiki.archlinux.org/title/KVM
+# 5 - https://wiki.archlinux.org/title/QEMU
+# 6 - https://roboxes.org
+#--------------------------------------------------------------
 Vagrant.configure("2") do |config|
-  
+    
+    #----------------------------------------------------------
     # Configuration of the provider and its specs
-    config.vm.provider "virtualbox" do |v|
+    #----------------------------------------------------------
+    config.vm.provider "libvirt" do |v|
         v.memory = 2048
         v.cpus = 2
     end
 
-    # Ubuntu 18.04 image  
-    config.vm.box = "ubuntu/groovy64"
+    #----------------------------------------------------------
+    # Choosing ubuntu 18.04 as a VM
+    #----------------------------------------------------------
+    config.vm.box = "generic/ubuntu1804"
     
-    # Ubuntu 20.04 image  
-    # config.vm.box = "ubuntu/focal64"
+    #----------------------------------------------------------
+    # Choosing ubuntu 20.04 as a VM
+    #----------------------------------------------------------
+    # config.vm.box = "generic/ubuntu2004"
 
-    # Ubuntu 21.04 image  
-    # config.vm.box = "ubuntu/hirsute64"
-  
-    # Take ip from DHCP server
-    config.vm.network "public_network"
-  
-    # Mount folder with the content of the Docker Compose
-    config.vm.synced_folder "~/getup/inceres/outros/mapnik-r-container/", "/data/"
+    #----------------------------------------------------------
+    # Network configuration
+    #----------------------------------------------------------
+    ## Setting hostname
+    config.vm.hostname = "vagrant.local"
 
-    # Mount folder with the content of SGI
-    # config.vm.synced_folder "../apps/sgi", "/vagrant_data/sgi"
-  
-    # Install Docker on the first run
-   config.vm.provision "docker" do |d|
-   end
+    ## Public network taking ip from DHCP server
+    ## make sure to create the bridge interface
+    config.vm.define :machine do |machine|
+      machine.vm.network :public_network,
+        :dev => "nm-bridge",
+        :mode => "bridge",
+        :type => "bridge"
+    end
+
+    ## Private network with DHCP
+    # config.vm.network "private_network", type: "dhcp"
+
+    ## Private network with a static ip
+    # config.vm.network "private_network", ip: "192.168.50.4"
+
+    ## Forward guest port to host
+    # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+    #----------------------------------------------------------
+    # Mount configurations
+    #----------------------------------------------------------
+    ## Mount local folder inside the VM
+    # config.vm.synced_folder "/local-path", "/vm-path"
+
+    #----------------------------------------------------------
+    # Provisioning
+    #----------------------------------------------------------
+    ## Install Docker on the first run
+    # config.vm.provision "docker" do |d|
+    # end
     
-    # Install Docker Compose
-    config.vm.provision "shell", inline: <<-SHELL
-        apt-get update
-        # apt-get install -y docker-compose
-        # apt-get install -y apache2
-        # curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh
-        # bash nodesource_setup.sh
-        # apt-get install -y nodejs
-        # npm install -g @angular/cli
-        cp -r /data/ /home/vagrant/inceres/
-        # cp -r /vagrant_data/docker/ docker
-        # ng build --prod
-    SHELL
+    ## Run shell commands
+    # config.vm.provision "shell", inline: <<-SHELL
+    #     apt-get update
+    #     # next command
+    # SHELL
 end
