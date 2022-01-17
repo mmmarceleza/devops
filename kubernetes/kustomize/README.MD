@@ -93,7 +93,7 @@ To apply the manifests, run the follow command:
 kubectl apply -k overlays/staging
 ```
 
-## Deploy on Production
+- Deploy on Production
 
 To generate the result manifest to output, run the follow command:
 
