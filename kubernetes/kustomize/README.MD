@@ -4,11 +4,56 @@ Kustomize uses a file called `kustomization.yaml` that contains declarative spec
 
 One of the excellent use cases of Kustomize is to manage Kubernetes resources for multiple environments. For Kustomize to work in that scenario, you would need a base directory that would contain all manifest files with all the common elements and an overlays directory that contains all the differences for a particular environment.
 
-## Example
+## Installation
+
+The following script detects your OS and downloads the appropriate kustomize binary to your current working directory:
+
+```
+curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+```
+
+Give the execution permission and move it to yout $PATH:
+
+```
+chmod +x kustomize
+sudo mv kustomize /usr/local/bin/
+```
+
+Test the command:
+
+```
+kustomize version
+```
+
+## Examples
+
+### Example 01 
+
+This is basic case with a folder with simple yaml manifests.
+
+Fisrt, generate the kustomization file:
+
+```
+kustomize create --autodetect --recursive
+```
+
+Kustomize has a subcommand to generate the result manifest with all listed on the kustomization.yaml file:
+
+```
+kustomize build .
+```
+
+After that, it is possible to apply it with kubectl:
+
+```
+kubectl apply -k .
+```
+
+### Example 02
 
 Install basic manifests, a deployment and a service, into two different namespaces, simulating two environments, staging and production.
 
-## Directory Structure
+- Directory Structure
 
 ```
 ├── base
@@ -26,7 +71,7 @@ Install basic manifests, a deployment and a service, into two different namespac
         └── namespace.yaml
 ```
 
-## The Base Configuration
+- The Base Configuration
 
 To test the base manifests, run the kustomize build on the base directory. Kustomize emits a manifest yaml that is a combination of the two.
 
@@ -34,7 +79,7 @@ To test the base manifests, run the kustomize build on the base directory. Kusto
 kustomize build base
 ```
 
-## Deploy on Staging
+- Deploy on Staging
 
 To generate the result manifest to output, run the follow command:
 
