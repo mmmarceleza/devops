@@ -1,5 +1,70 @@
 # Flux
 
+
+## Installation
+
+You can download the binary on the [GitHub release page](https://github.com/fluxcd/flux2/releases) or use the following script:
+
+```
+curl -s https://fluxcd.io/install.sh | sudo bash
+```
+
+Check the installation:
+
+```
+flux -v
+```
+
+## Examples
+
+### 00 - Basic installation and components
+
+- Create a basic cluster with [kind](../kind/README.md).
+
+```
+flux check --pre
+```
+
+- Install flux:
+
+```
+flux install
+```
+
+- Check the new objects created:
+
+```
+flux version
+kubectl get pod -A | grep flux
+kubectl api-resources | grep fluxcd
+```
+
+### 01 - Bootstrap with GitHub
+
+- Create a basic cluster with [kind](../kind/README.md).
+
+- With `flux bootstrap` command you can install flux and configure it to manage itself from a git repository. If Flux was previously installed, it will be upgrade if needed. The bootstrap is idempotent, it’s safe to run the command as many times as you want. 
+
+```
+flux bootstrap github \
+  --owner=mmmarceleza \
+  --repository=devops \
+  --path=kubernetes/flux/examples/01 \
+  --personal
+```
+note: change the `--owner` command to match your user.
+
+- Check all the changes in your repository on GitHub:
+  - commits;
+  - deploy keys on settings;
+  - new files created on the path you specified before;
+
+
+
+
+
+
+
 Teste de pré-requisitos: flux check --pre
 
 flux bootstrap github \
