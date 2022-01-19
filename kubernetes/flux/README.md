@@ -139,7 +139,7 @@ git push
 flux uninstall
 ``` 
 
-### 02 - Using Helmrelease
+### 03 - Using Helmrelease - part 1
 
 - Create a basic cluster with [kind](../kind/README.md).
 
@@ -153,3 +153,34 @@ flux bootstrap github \
   --interval=1m \
   --personal
 ```
+
+- Check all the changes in the cluster:
+
+- Remove Flux components:
+
+```console
+flux uninstall
+``` 
+
+### 04 - Using Helmrelease - part 2
+
+- Create a basic cluster with [kind](../kind/README.md).
+
+- Bootstrap your main repository pointing to the third example:
+
+```
+flux bootstrap github \
+  --owner=mmmarceleza \
+  --repository=devops \
+  --path=kubernetes/flux/examples/04 \
+  --interval=1m \
+  --personal
+```
+
+- Check all the changes in the cluster:
+
+- Remove Flux components:
+
+```console
+flux uninstall
+``` 
