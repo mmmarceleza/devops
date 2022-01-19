@@ -4,6 +4,7 @@ metadata:
   labels:
     app: 01-deploy
   name: 01-deploy
+  namespace: default
 spec:
   replicas: 1
   selector:
