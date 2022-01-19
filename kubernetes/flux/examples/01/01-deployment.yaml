@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: 02-deploy
-  name: 02-deploy
+    app: 01-deploy
+  name: 01-deploy
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: 02-deploy
+      app: 01-deploy
   template:
     metadata:
       labels:
-        app: 02-deploy
+        app: 01-deploy
     spec:
       containers:
       - image: nginx
