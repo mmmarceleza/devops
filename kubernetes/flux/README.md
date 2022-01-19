@@ -66,68 +66,69 @@ note: change the `--owner` parameter to match your user.
   - deploy keys on settings;
   - new files created on the path you specified before;
 
+- Check all the changes in the cluster:
+  - new objects of Flux;
+  - 01-deploy on namespace default;
 
+- Remove Flux components:
 
+```console
+flux uninstall
+```  
 
+### 02 - Using more git repositories
 
+- Create a basic cluster with [kind](../kind/README.md).
 
+- Bootstrap your main repository pointing to the second example:
 
-Teste de pré-requisitos: flux check --pre
-
+```
 flux bootstrap github \
-  --owner=<seu_usuario_github> \
-  --repository=<nome_do_repositorio> \
-  --path=clusters/my-cluster \
+  --owner=mmmarceleza \
+  --repository=devops \
+  --path=kubernetes/flux/examples/02 \
+  --interval=1m \
   --personal
+```
 
-Subir o app1 na raiz da pasta my-cluster
+- Let's use podinfo as a second reference:
 
-Criar a pasta apps na raiz de my-cluster e subir o app1 com o nome de app2
 
-Subir o podinfo
-
+```console
 flux create source git podinfo \
   --url=https://github.com/stefanprodan/podinfo \
   --branch=master \
   --interval=30s \
-  --export > ./clusters/my-cluster/podinfo-source.yaml
-  
-git add -A && git commit -m "Add podinfo GitRepository"
+  --export > kubernetes/flux/examples/02/podinfo-source.yaml
+```
+
+- Commit the changes:
+
+```console
+git add kubernetes/flux/examples/02/podinfo-source.yaml
+git commit -m "Add podinfo GitRepository"
 git push
+```
 
+- Create a Flux kustomization:
 
+```console
 flux create kustomization podinfo \
   --target-namespace=default \
   --source=podinfo \
   --path="./kustomize" \
   --prune=true \
   --interval=5m \
-  --export > ./clusters/my-cluster/podinfo-kustomization.yaml
-  
-git add -A && git commit -m "Add podinfo Kustomization"
+  --export > kubernetes/flux/examples/02/podinfo-kustomization.yaml
+```
+
+- Commit the changes:
+
+```
+git add kubernetes/flux/examples/02/podinfo-kustomization.yaml
+git commit -m "Add podinfo Kustomization"
 git push
+```
 
+- Check all the changes in the cluster:
 
-Customizar o podinfo alterando o podinfo-kustomization.yaml
-
-patches:
-    - patch: |-
-        apiVersion: autoscaling/v2beta2
-        kind: HorizontalPodAutoscaler
-        metadata:
-          name: podinfo
-        spec:
-          minReplicas: 3             
-      target:
-        name: podinfo
-        kind: HorizontalPodAutoscaler
-        
-        
-bootstrap com pods de image        
-
-flux bootstrap github \
-  --components-extra=image-reflector-controller,image-automation-controller \
-  --owner=mmmarceleza \
-  --repository=testekind \
-  --path=clusters/my-cluster \
-  --personal
