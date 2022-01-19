@@ -9,7 +9,7 @@ spec:
   storageNamespace: default
   chart:
     spec:
-      chart: helm/charts/basic-app
+      chart: helm/charts/basic-app/
       sourceRef:
         kind: GitRepository
         name: flux-system
