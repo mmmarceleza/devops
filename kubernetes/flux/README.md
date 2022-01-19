@@ -39,6 +39,12 @@ kubectl get pod -A | grep flux
 kubectl api-resources | grep fluxcd
 ```
 
+- Remove Flux components:
+
+```console
+flux uninstall
+```
+
 ### 01 - Bootstrap with GitHub
 
 - Create a basic cluster with [kind](../kind/README.md).
@@ -50,9 +56,10 @@ flux bootstrap github \
   --owner=mmmarceleza \
   --repository=devops \
   --path=kubernetes/flux/examples/01 \
+  --interval=1m \
   --personal
 ```
-note: change the `--owner` command to match your user.
+note: change the `--owner` parameter to match your user.
 
 - Check all the changes in your repository on GitHub:
   - commits;
