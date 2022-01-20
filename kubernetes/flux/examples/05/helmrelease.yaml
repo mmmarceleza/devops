@@ -7,6 +7,7 @@ spec:
   targetNamespace: default
   storageNamespace: default
   chart:
+    releaseName: app-05
     spec:
       chart: basic-app
       sourceRef:
