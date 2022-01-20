@@ -3,11 +3,11 @@ kind: HelmRelease
 metadata:
   name: app-05
   namespace: flux-system
-spec:  
+spec:
+  releaseName: app-05  
   targetNamespace: default
   storageNamespace: default
   chart:
-    releaseName: app-05
     spec:
       chart: basic-app
       sourceRef:
