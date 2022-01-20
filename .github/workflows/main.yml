@@ -35,6 +35,6 @@ jobs:
       #---------------------step 05-----------------------
       - name: Build, tag, and push image to Docker Hub
         run: |
-          docker build -t mmmarceleza/app4:$IMAGE_TAG .
+          docker build -t mmmarceleza/app4:$IMAGE_TAG -f docker/dockerfile .
           docker push mmmarceleza/app4:$IMAGE_TAG
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_ORGANIZATION }}:$IMAGE_TAG
