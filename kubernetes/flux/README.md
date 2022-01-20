@@ -198,6 +198,7 @@ flux bootstrap github \
   --repository=devops \
   --path=kubernetes/flux/examples/05 \
   --interval=1m \
+  --read-write-key=true \
   --personal
 ```
 
