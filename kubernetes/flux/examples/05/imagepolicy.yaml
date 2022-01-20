@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   imageRepositoryRef:
-    name: app4
+    name: app-05
   filterTags:
     pattern: "^[a-f0-9]+-(?P<ts>[0-9]*)$"
     extract: "$ts"
