@@ -4,7 +4,7 @@ metadata:
   name: app-05
   namespace: flux-system
 spec:
-  releaseName: app-05  
+  releaseName: app-05
   targetNamespace: default
   storageNamespace: default
   chart:
@@ -26,7 +26,7 @@ spec:
     #                      Deployment                     #
     #-----------------------------------------------------#
     image:
-      repository: docker.io/mmmarceleza/app4:48c8c44-20220120002233 # {"$imagepolicy": "flux-system:app-05"}
+      repository: docker.io/mmmarceleza/app4:5ef1e7e-20220120005702 # {"$imagepolicy": "flux-system:app-05"}
     replicaCount: 1
     containerPort: 80
     #-----------------------------------------------------#
