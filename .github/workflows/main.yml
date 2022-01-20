@@ -1,0 +1,40 @@
+#--------------------------------------------------------
+#                        Header
+#--------------------------------------------------------
+# Action name and Its triggers
+name: Deliver image to Docker Hub
+on: workflow_dispatch
+
+#--------------------------------------------------------
+#                 Beginning of the jobs
+#--------------------------------------------------------
+jobs:
+  #------------------------------------------------------
+  # job 01 - Build e Push do container para o Docker Hub
+  #------------------------------------------------------
+  push:
+    name: Publica a Imagem
+    needs: build
+    runs-on: ubuntu-18.04
+    steps:
+      #---------------------step 01-----------------------
+      - name: Checkout
+        uses: actions/checkout@v2
+      #---------------------step 02-----------------------
+      - name: Login DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      #---------------------step 03-----------------------
+      - name: Create Short SHA Commit
+        run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-7`" >> $GITHUB_ENV
+      #---------------------step 04-----------------------
+      - name: Create Image Tag
+        run: echo "IMAGE_TAG=$SHORT_SHA-$(date --utc +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+      #---------------------step 05-----------------------
+      - name: Build, tag, and push image to Docker Hub
+        run: |
+          docker build -t mmmarceleza/app4:$IMAGE_TAG .
+          docker push mmmarceleza/app4:$IMAGE_TAG
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_ORGANIZATION }}:$IMAGE_TAG
