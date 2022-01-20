@@ -184,3 +184,27 @@ flux bootstrap github \
 ```console
 flux uninstall
 ``` 
+
+### 05 - Using image controlers
+
+- Create a basic cluster with [kind](../kind/README.md).
+
+- Bootstrap your main repository pointing to the third example:
+
+```
+flux bootstrap github \
+  --components-extra=image-reflector-controller,image-automation-controller \
+  --owner=mmmarceleza \
+  --repository=devops \
+  --path=kubernetes/flux/examples/05 \
+  --interval=1m \
+  --personal
+```
+
+- Check all the changes in the cluster:
+
+- Remove Flux components:
+
+```console
+flux uninstall
+``` 
