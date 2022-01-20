@@ -14,7 +14,6 @@ jobs:
   #------------------------------------------------------
   push:
     name: Publica a Imagem
-    needs: build
     runs-on: ubuntu-18.04
     steps:
       #---------------------step 01-----------------------
