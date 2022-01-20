@@ -1,3 +1,4 @@
+---
 #--------------------------------------------------------
 #                        Header
 #--------------------------------------------------------
@@ -36,4 +37,3 @@ jobs:
         run: |
           docker build -t mmmarceleza/app4:$IMAGE_TAG -f docker/dockerfile .
           docker push mmmarceleza/app4:$IMAGE_TAG
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_ORGANIZATION }}:$IMAGE_TAG
