@@ -1,31 +1,61 @@
 # JSONPATH Cheat Sheet
 
-List cpu capacity of all nodes:
+## List cpu capacity of all nodes:
 
-```
+```console
 kubectl get nodes -o=jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.capacity.cpu}{"\n"}{end}'
 ```
 
-List memory capacity of all nodes:
+or
 
+```console
+kubectl get nodes -o=custom-columns=NODE:.metadata.name,CPU:.status.capacity.cpu
 ```
+
+## List memory capacity of all nodes:
+
+```console
 kubectl get nodes -o=jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.capacity.memory}{"\n"}{end}'
 ```
 
-List Taints of all nodes:
+or
 
+```console
+kubectl get nodes -o=custom-columns=NODE:.metadata.name,MEMORY:.status.capacity.memory
 ```
+
+## List Taints of all nodes:
+
+```console
 kubectl get nodes -o=jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.taints}{"\n"}{end}'
 ```
 
-List images of all pods:
+or
 
+```console
+kubectl get nodes -o=custom-columns=NODE:.metadata.name,TAINTS:.spec.taints
 ```
+
+## List images of all pods:
+
+```console
 kubectl get pods -o=jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.containers[*].image}{"\n"}{end}'
 ```
 
-List roleRef of all clusterrolebinding:
+or
 
+```console
+kubectl get pods -o=custom-columns=PODS:.metadata.name,IMAGES:.spec.containers[*].image
 ```
+
+## List roleRef of all clusterrolebinding:
+
+```console
 oc get clusterrolebinding -o=jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.roleRef.name}{"\n"}{end}'
+```
+
+or
+
+```console
+kubectl get clusterrolebinding -o=custom-columns=CLUSTERROLEBINDING:.metadata.name,ROLEREF:.roleRef.name
 ```
