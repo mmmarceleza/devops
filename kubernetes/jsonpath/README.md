@@ -59,3 +59,8 @@ or
 ```console
 kubectl get clusterrolebinding -o=custom-columns=CLUSTERROLEBINDING:.metadata.name,ROLEREF:.roleRef.name
 ```
+## List pods resources:
+
+```console
+kubectl get pods -o=custom-columns=PODS:.metadata.name,NAMESPACE:.metadata.namespace,"REQUEST CPU:".spec.containers[*].resources.requests.cpu,"REQUEST MEM:".spec.containers[*].resources.requests.memory,"LIMITS CPU:".spec.containers[*].resources.limits.cpu,"LIMITS MEM:".spec.containers[*].resources.limits.memory
+```

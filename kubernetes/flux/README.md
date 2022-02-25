@@ -209,3 +209,24 @@ flux bootstrap github \
 ```console
 flux uninstall
 ``` 
+## Command to connect this repo with your cluster
+
+- Create a Flux gitrepository:
+
+```console
+flux create source git devops \
+  --url=https://github.com/mmmarceleza/devops.git \
+  --branch=main \
+  --interval=30s
+```
+
+- Create a Flux kustomization:
+
+```console
+flux create kustomization devops \
+  --target-namespace=default \
+  --source=podinfo \
+  --path="./kubernetes/flux/apps/" \
+  --prune=true \
+  --interval=5m
+```

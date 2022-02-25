@@ -101,6 +101,12 @@ control + b  0 ... 9
 ## Basic Panes Commands
 
 
+## Other useful tips
+
+Enable mouse support:
+```console
+ctrl+b :set -g mouse on
+```
 
 ## References
 

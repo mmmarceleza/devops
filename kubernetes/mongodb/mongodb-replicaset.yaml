@@ -1,0 +1,78 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mongodb
+---
+apiVersion: mongodbcommunity.mongodb.com/v1
+kind: MongoDBCommunity
+metadata:
+  name: mongodb
+  namespace: mongodb
+spec:
+  members: 3
+  type: ReplicaSet
+  version: 4.4.0
+  security:
+    authentication:
+      modes: ["SCRAM"]
+  users:
+    - name: admin
+      db: main # the database create will be named main
+      passwordSecretRef: # a reference to the secret that will be used to generate the user's password
+        name: mongodb-password
+      roles:
+        - name: clusterAdmin
+          db: admin
+        - name: userAdminAnyDatabase
+          db: admin
+      scramCredentialsSecretName: scram
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongodb-password
+  namespace: mongodb
+type: Opaque
+stringData:
+  password: Y2hhbmdlbWU= #change password current password is changeme
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: mongodb-database
+  namespace: mongodb
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - patch
+      - delete
+      - get
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mongodb-database
+  namespace: mongodb
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: mongodb-database
+  namespace: mongodb
+subjects:
+- kind: ServiceAccount
+  name: mongodb-database
+roleRef:
+  kind: Role
+  name: mongodb-database
+  apiGroup: rbac.authorization.k8s.io
