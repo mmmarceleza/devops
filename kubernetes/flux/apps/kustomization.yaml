@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
 
 # mongodb
-- mongodb-flux-kustomization.yaml
-# - ../../mongodb/flux-kustomization.yaml
+# - mongodb-flux-kustomization.yaml
+- ../../mongodb/flux-kustomization.yaml
