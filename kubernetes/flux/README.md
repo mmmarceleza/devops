@@ -224,7 +224,6 @@ flux create source git devops \
 
 ```console
 flux create kustomization devops \
-  --target-namespace=default \
   --source=devops \
   --path="./kubernetes/flux/apps/" \
   --prune=true \
