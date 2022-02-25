@@ -1,7 +1,6 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  annotations: {}
   name: mongodb-operator
   namespace: flux-system
 spec:
@@ -26,3 +25,6 @@ spec:
       watchNamespace: "*"
     namespace: mongodb-operator
     createResource: false
+    resource:
+      tls:
+        enabled: false

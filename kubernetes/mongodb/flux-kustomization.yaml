@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./kubernetes/mongodb/"
+  path: "./kubernetes/mongodb/flux/"
   sourceRef:
     kind: GitRepository
     name: devops
