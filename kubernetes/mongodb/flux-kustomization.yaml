@@ -8,6 +8,6 @@ spec:
   path: "."
   sourceRef:
     kind: GitRepository
-    name: apps
+    name: devops
     namespace: flux-system
   prune: true
