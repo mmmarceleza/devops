@@ -1,0 +1,13 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: redis
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: "./kubernetes/redis/flux/"
+  sourceRef:
+    kind: GitRepository
+    name: devops
+    namespace: flux-system
+  prune: true

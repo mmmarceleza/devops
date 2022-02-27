@@ -2,8 +2,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-
-# mongodb-operator
-- ../../mongodb/flux/operator/flux-kustomization.yaml
-# mongodb-replica-set
-- ../../mongodb/flux/replica-set/flux-kustomization.yaml
+  # Helm Repositories
+  - helmrepository.yaml
+  # mongodb-operator
+  - ../../mongodb/flux/operator/flux-kustomization.yaml
+  # mongodb-replica-set
+  - ../../mongodb/flux/replica-set/flux-kustomization.yaml
+  # redis
+  - ../../redis/flux/flux-kustomization.yaml
