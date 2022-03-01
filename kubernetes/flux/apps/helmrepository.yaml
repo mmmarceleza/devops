@@ -1,41 +1,15 @@
 #------------------------------------------------------------------------------
-#                           Nginx Ingress Controller
+#                                 Appsmith
 #------------------------------------------------------------------------------
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: ingress-nginx
+  name: appsmith
   namespace: flux-system
 spec:
   interval: 1h
-  url: https://kubernetes.github.io/ingress-nginx
-
-#------------------------------------------------------------------------------
-#                                  Mongodb
-#------------------------------------------------------------------------------
----
-apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: HelmRepository
-metadata:
-  name: mongodb
-  namespace: flux-system
-spec:
-  interval: 1h
-  url: https://mongodb.github.io/helm-charts
-
-#------------------------------------------------------------------------------
-#                                  Bitnami
-#------------------------------------------------------------------------------
----
-apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: HelmRepository
-metadata:
-  name: bitnami
-  namespace: flux-system
-spec:
-  interval: 1h
-  url: https://charts.bitnami.com/bitnami
+  url: https://helm.appsmith.com
 
 #------------------------------------------------------------------------------
 #                                 Autoscaler
@@ -51,6 +25,19 @@ spec:
   url: https://kubernetes.github.io/autoscaler
 
 #------------------------------------------------------------------------------
+#                                  Bitnami
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: bitnami
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://charts.bitnami.com/bitnami
+
+#------------------------------------------------------------------------------
 #                                  Jetstack
 #------------------------------------------------------------------------------
 ---
@@ -62,6 +49,35 @@ metadata:
 spec:
   interval: 1h
   url: https://charts.jetstack.io
+
+
+#------------------------------------------------------------------------------
+#                                  Mongodb
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: mongodb
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://mongodb.github.io/helm-charts
+
+
+
+#------------------------------------------------------------------------------
+#                           Nginx Ingress Controller
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: ingress-nginx
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://kubernetes.github.io/ingress-nginx
 
 #------------------------------------------------------------------------------
 #                                  Velero
