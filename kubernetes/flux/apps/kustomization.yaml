@@ -6,10 +6,16 @@ resources:
   - helmrepository.yaml
 
   # appsmith
-  - ../../appsmith/flux/flux-kustomization.yaml
+  # - ../../appsmith/flux/flux-kustomization.yaml
+
   # mongodb-operator
-  - ../../mongodb/flux/operator/flux-kustomization.yaml
+  # - ../../mongodb/flux/operator/flux-kustomization.yaml
+
   # mongodb-replica-set
-  - ../../mongodb/flux/replica-set/flux-kustomization.yaml
+  # - ../../mongodb/flux/replica-set/flux-kustomization.yaml
+
+  # rabbitmq
+  - ../../rabbitmq/flux/flux-kustomization.yaml  
+  
   # redis
-  - ../../redis/flux/flux-kustomization.yaml
+  # - ../../redis/flux/flux-kustomization.yaml

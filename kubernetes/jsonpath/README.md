@@ -24,6 +24,7 @@ or
 kubectl get nodes -o=custom-columns=NODE:.metadata.name,MEMORY:.status.capacity.memory
 ```
 
+
 ## List Taints of all nodes:
 
 ```console
@@ -63,4 +64,10 @@ kubectl get clusterrolebinding -o=custom-columns=CLUSTERROLEBINDING:.metadata.na
 
 ```console
 kubectl get pods -o=custom-columns=PODS:.metadata.name,NAMESPACE:.metadata.namespace,"REQUEST CPU:".spec.containers[*].resources.requests.cpu,"REQUEST MEM:".spec.containers[*].resources.requests.memory,"LIMITS CPU:".spec.containers[*].resources.limits.cpu,"LIMITS MEM:".spec.containers[*].resources.limits.memory
+```
+
+## List nodes resources:
+
+```console
+kubectl get nodes -o=custom-columns=NODE:.metadata.name,CPU:.status.capacity.cpu,MEMORY:.status.capacity.memory
 ```
