@@ -121,7 +121,7 @@ flux bootstrap github \
 Create a simple secret to test:
 
 ```console
-kubectl -n sops create secret generic basic-auth \
+kubectl -n default create secret generic basic-auth \
 --from-literal=user=admin \
 --from-literal=password=change-me \
 --dry-run=client \
