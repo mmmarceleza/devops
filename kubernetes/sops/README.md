@@ -131,7 +131,7 @@ kubectl -n default create secret generic basic-auth \
 Encrypt that secret using sops:
 
 ```console
-sops --encrypt --in-place ./kubernetes/sops/basic-auth.yaml
+sops --encrypt --in-place --config=./kubernetes/sops/.sops.yaml ./kubernetes/sops/basic-auth.yaml
 ```
 
 Commit this new secret manifest to your repository:
