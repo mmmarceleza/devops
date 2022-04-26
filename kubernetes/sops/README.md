@@ -109,6 +109,15 @@ EOF
 
 - Bootstrap a github repository with [Flux](../flux/README.md);
 
+```console
+flux bootstrap github \
+  --owner=mmmarceleza \
+  --repository=devops \
+  --path=kubernetes/sops \
+  --interval=1m \
+  --personal
+```
+
 Create a simple secret to test:
 
 ```console
