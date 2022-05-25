@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: keycloak
+spec: {}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: postgresql
+spec: {}
