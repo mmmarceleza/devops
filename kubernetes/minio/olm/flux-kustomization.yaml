@@ -12,5 +12,5 @@ spec:
     namespace: flux-system
   prune: true
   dependsOn:
-    - olm
+    - name: olm
   wait: true
