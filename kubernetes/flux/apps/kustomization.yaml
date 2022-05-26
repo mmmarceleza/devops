@@ -8,6 +8,9 @@ resources:
   # appsmith
   # - ../../appsmith/flux/flux-kustomization.yaml
 
+  # Minio
+  - ../../minio/olm/flux-kustomization.yaml
+
   # mongodb-operator
   # - ../../mongodb/flux/operator/flux-kustomization.yaml
 
