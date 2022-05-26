@@ -217,7 +217,7 @@ flux uninstall
 flux create source git devops \
   --url=https://github.com/mmmarceleza/devops.git \
   --branch=main \
-  --interval=30s
+  --interval=5m
 ```
 
 - Create a Flux kustomization:

@@ -14,8 +14,11 @@ resources:
   # mongodb-replica-set
   # - ../../mongodb/flux/replica-set/flux-kustomization.yaml
 
+  # Operator Lifecycle Manager (OLM)
+  - ../../olm/flux-kustomization.yaml
+
   # rabbitmq
-  - ../../rabbitmq/flux/flux-kustomization.yaml  
-  
+  # - ../../rabbitmq/flux/flux-kustomization.yaml
+
   # redis
   # - ../../redis/flux/flux-kustomization.yaml
