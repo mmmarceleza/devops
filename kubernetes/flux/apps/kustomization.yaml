@@ -8,6 +8,9 @@ resources:
   # appsmith
   # - ../../appsmith/flux/flux-kustomization.yaml
 
+  # Keycloak
+  - ../../keycloak/olm/flux-kustomization.yaml
+
   # Minio
   - ../../minio/olm/flux-kustomization.yaml
 
