@@ -80,6 +80,19 @@ spec:
   url: https://kubernetes.github.io/ingress-nginx
 
 #------------------------------------------------------------------------------
+#                                   Openebs
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: openebs
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://openebs.github.io/charts
+
+#------------------------------------------------------------------------------
 #                                  Velero
 #------------------------------------------------------------------------------
 ---
