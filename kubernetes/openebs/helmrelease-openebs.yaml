@@ -1,0 +1,24 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: openebs
+  namespace: flux-system
+spec:
+  releaseName: openebs
+  targetNamespace: openebs
+  storageNamespace: openebs
+  chart:
+    spec:
+      chart: openebs
+      sourceRef:
+        kind: HelmRepository
+        name: openebs
+      version: 3.2.0
+  dependsOn: []
+  install:
+    createNamespace: true
+    disableWait: true
+    remediation:
+      retries: -1
+  interval: 1m
+  values:

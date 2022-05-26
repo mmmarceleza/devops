@@ -17,6 +17,9 @@ resources:
   # mongodb-replica-set
   # - ../../mongodb/flux/replica-set/flux-kustomization.yaml
 
+  # Openebs
+  - ../../openebs/flux-kustomization.yaml
+
   # Operator Lifecycle Manager (OLM)
   - ../../olm/flux-kustomization.yaml
 
