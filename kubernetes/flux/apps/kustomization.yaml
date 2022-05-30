@@ -9,10 +9,10 @@ resources:
   # - ../../appsmith/flux/flux-kustomization.yaml
 
   # Keycloak
-  - ../../keycloak/olm/flux-kustomization.yaml
+  # - ../../keycloak/olm/flux-kustomization.yaml
 
   # Minio
-  - ../../minio/olm/flux-kustomization.yaml
+  # - ../../minio/olm/flux-kustomization.yaml
 
   # mongodb-operator
   # - ../../mongodb/flux/operator/flux-kustomization.yaml
