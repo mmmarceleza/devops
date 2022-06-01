@@ -198,7 +198,7 @@ spec:
         # Available reclaim policies: Delete/Retain, defaults: Delete.
         reclaimPolicy: Delete
         # If true, sets the openebs-hostpath StorageClass as the default StorageClass
-        isDefaultClass: false
+        isDefaultClass: true
         # Path on the host where local volumes of this storage class are mounted under.
         # NOTE: If not specified, this defaults to the value of localprovisioner.basePath.
         basePath: ""
@@ -277,8 +277,9 @@ spec:
         enableVendorFilter: true
         excludeVendors: "CLOUDBYT,OpenEBS"
         enablePathFilter: true
-        includePaths: ""
-        excludePaths: "/dev/loop,/dev/fd0,/dev/sr0,/dev/ram,/dev/dm-,/dev/md,/dev/rbd,/dev/zd"
+        includePaths: "/mnt/vdb1"
+        # excludePaths: "/dev/loop,/dev/fd0,/dev/sr0,/dev/ram,/dev/dm-,/dev/md,/dev/rbd,/dev/zd"
+        excludePaths: ""
       probes:
         enableSeachest: false
       nodeSelector: {}
