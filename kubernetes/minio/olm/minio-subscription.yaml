@@ -8,3 +8,4 @@ spec:
   name: minio-operator
   source: operatorhubio-catalog
   sourceNamespace: olm
+  installPlanApproval: Manual

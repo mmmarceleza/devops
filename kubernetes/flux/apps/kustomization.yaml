@@ -11,6 +11,9 @@ resources:
   # Keycloak
   # - ../../keycloak/olm/flux-kustomization.yaml
 
+  # Metrics Server
+  - ../../metrics-server/flux-kustomization.yaml
+
   # Minio
   # - ../../minio/olm/flux-kustomization.yaml
 
@@ -24,7 +27,7 @@ resources:
   - ../../openebs/flux-kustomization.yaml
 
   # Operator Lifecycle Manager (OLM)
-  # - ../../olm/flux-kustomization.yaml
+  - ../../olm/flux-kustomization.yaml
 
   # rabbitmq
   # - ../../rabbitmq/flux/flux-kustomization.yaml
