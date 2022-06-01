@@ -50,6 +50,18 @@ spec:
   interval: 1h
   url: https://charts.jetstack.io
 
+#------------------------------------------------------------------------------
+#                               Metrics Server
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: metrics-server
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://kubernetes-sigs.github.io/metrics-server/
 
 #------------------------------------------------------------------------------
 #                                  Mongodb
