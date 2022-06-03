@@ -127,7 +127,7 @@ spec:
       # These fields are deprecated. Please use the fields (see below)
       # - deviceClass.enabled
       # - hostpathClass.enabled
-      enableDeviceClass: true
+      enableDeviceClass: false
       enableHostpathClass: true
       # This sets default directory used by the provisioner to provision
       # hostpath volumes.
