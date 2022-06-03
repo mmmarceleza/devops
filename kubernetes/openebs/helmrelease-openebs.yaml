@@ -277,7 +277,7 @@ spec:
         enableVendorFilter: true
         excludeVendors: "CLOUDBYT,OpenEBS"
         enablePathFilter: true
-        includePaths: "/mnt/vdb1"
+        includePaths: "/mnt/vdb"
         # excludePaths: "/dev/loop,/dev/fd0,/dev/sr0,/dev/ram,/dev/dm-,/dev/md,/dev/rbd,/dev/zd"
         excludePaths: ""
       probes:
