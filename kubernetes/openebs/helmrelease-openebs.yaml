@@ -177,7 +177,7 @@ spec:
         # This is only usable if the selected BlockDevice does not already
         # have a filesystem
         # Valid values: "ext4", "xfs"
-        fsType: "ext4"
+        fsType: "xfs"
         # Label block devices in the cluster that you would like the openEBS localPV
         # Provisioner to pick up those specific block devices available on the node.
         # Set the label key and value as shown in the example below.
