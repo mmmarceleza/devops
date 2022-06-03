@@ -158,7 +158,7 @@ spec:
         # Name of default device StorageClass.
         name: openebs-device
         # If true, enables creation of the openebs-device StorageClass
-        enabled: true
+        enabled: false
         # Available reclaim policies: Delete/Retain, defaults: Delete.
         reclaimPolicy: Delete
         # If true, sets the openebs-device StorageClass as the default StorageClass
