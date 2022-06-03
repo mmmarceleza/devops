@@ -131,7 +131,7 @@ spec:
       enableHostpathClass: true
       # This sets default directory used by the provisioner to provision
       # hostpath volumes.
-      basePath: "/var/openebs/local"
+      basePath: "/mnt/vdb1"
       # This sets the number of times the provisioner should try
       # with a polling interval of 5 seconds, to get the Blockdevice
       # Name from a BlockDeviceClaim, before the BlockDeviceClaim
@@ -192,7 +192,7 @@ spec:
 
       hostpathClass:
         # Name of the default hostpath StorageClass
-        name: openebs-hostpath
+        name: minio
         # If true, enables creation of the openebs-hostpath StorageClass
         enabled: true
         # Available reclaim policies: Delete/Retain, defaults: Delete.
