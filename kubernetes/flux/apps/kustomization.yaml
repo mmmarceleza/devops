@@ -30,7 +30,7 @@ resources:
   # - ../../mongodb/flux/replica-set/flux-kustomization.yaml
 
   # Openebs
-  - ../../openebs/flux-kustomization.yaml
+  # - ../../openebs/flux-kustomization.yaml
 
   # Operator Lifecycle Manager (OLM)
   - ../../olm/flux-kustomization.yaml
