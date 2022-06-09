@@ -12,7 +12,7 @@ resources:
   # - ../../ingress-nginx/flux-kustomization.yaml  
 
   # Keycloak
-  # - ../../keycloak/olm/flux-kustomization.yaml
+  - ../../keycloak/olm/flux-kustomization.yaml
 
   # MetalLB
   # - ../../metallb/flux-kustomization.yaml
