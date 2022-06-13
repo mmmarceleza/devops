@@ -6,4 +6,4 @@ resources:
   - keycloak-operator-group.yaml
   - keycloak-subscription.yaml
   - keycloak-db-secret.yaml
-  - keycloak.yaml
+  # - keycloak.yaml
