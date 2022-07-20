@@ -1,0 +1,7 @@
+flux create kustomization podinfo \
+  --target-namespace=default \
+  --source=podinfo \
+  --path="./kustomize" \
+  --prune=true \
+  --interval=5m \
+  --export
