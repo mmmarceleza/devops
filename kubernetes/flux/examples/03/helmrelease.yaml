@@ -12,7 +12,7 @@ spec:
       chart: helm/charts/basic-app/
       sourceRef:
         kind: GitRepository
-        name: devops
+        name: flux-system
         namespace: flux-system
   dependsOn: []
   install:
