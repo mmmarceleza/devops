@@ -9,49 +9,60 @@
 # 5 - https://wiki.archlinux.org/title/QEMU
 # 6 - https://roboxes.org
 #--------------------------------------------------------------
+
+#--------------------------------------------------------------
+#                           VARIABLES
+#--------------------------------------------------------------
+
+VAGRANT_BOX         = "generic/ubuntu2204"
+VAGRANT_BOX_VERSION = "4.0.2"
+CPUS                = 2
+MEMORY              = 2048
+HOSTNAME            = "vagrant.local"
+
+#--------------------------------------------------------------
+#                          CONFIGURATION
+#--------------------------------------------------------------
+
 Vagrant.configure("2") do |config|
     
     #----------------------------------------------------------
     # Configuration of the provider and its specs
     #----------------------------------------------------------
     config.vm.provider "libvirt" do |v|
-        v.memory = 2048
-        v.cpus = 2
+        v.memory = MEMORY
+        v.cpus = CPUS
     end
 
     #----------------------------------------------------------
-    # Choosing ubuntu 18.04 as a VM
+    # Choosing the box
     #----------------------------------------------------------
-    config.vm.box = "generic/ubuntu1804"
-    
-    #----------------------------------------------------------
-    # Choosing ubuntu 20.04 as a VM
-    #----------------------------------------------------------
-    # config.vm.box = "generic/ubuntu2004"
+    config.vm.box         = VAGRANT_BOX
+    config.vm.box_version = VAGRANT_BOX_VERSION
 
     #----------------------------------------------------------
     # Network configuration
     #----------------------------------------------------------
     ## Setting hostname
-    config.vm.hostname = "vagrant.local"
+    config.vm.hostname = HOSTNAME
 
     ## Public network taking ip from DHCP server
     ## make sure to create the bridge interface
-    config.vm.define :machine do |machine|
-      machine.vm.network :public_network,
-        :dev => "nm-bridge",
-        :mode => "bridge",
-        :type => "bridge"
-    end
+    # config.vm.define :machine do |machine|
+    #   machine.vm.network :public_network,
+    #     :dev => "nm-bridge",
+    #     :mode => "bridge",
+    #     :type => "bridge"
+    # end
 
     ## Private network with DHCP
     # config.vm.network "private_network", type: "dhcp"
 
     ## Private network with a static ip
-    # config.vm.network "private_network", ip: "192.168.50.4"
+    config.vm.network "private_network", ip: "192.168.50.2"
 
     ## Forward guest port to host
-    # config.vm.network "forwarded_port", guest: 80, host: 8080
+    config.vm.network "forwarded_port", guest: 80, host: 8080
 
     #----------------------------------------------------------
     # Mount configurations
