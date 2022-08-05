@@ -14,7 +14,7 @@ echo "[TASK 2] Stop and Disable firewall"
 systemctl disable --now ufw >/dev/null 2>&1
 
 echo "[TASK 3] Enable and Load Kernel modules"
-cat >>/etc/modules-load.d/containerd.conf<<EOF
+cat >>/etc/modules-load.d/k8s.conf<<EOF
 overlay
 br_netfilter
 EOF
@@ -22,28 +22,38 @@ modprobe overlay
 modprobe br_netfilter
 
 echo "[TASK 4] Add Kernel settings"
-cat >>/etc/sysctl.d/kubernetes.conf<<EOF
+cat >>/etc/sysctl.d/k8s.conf<<EOF
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables  = 1
 net.ipv4.ip_forward                 = 1
 EOF
 sysctl --system >/dev/null 2>&1
 
-echo "[TASK 5] Install containerd runtime"
+echo "[TASK 5] Install CRIO runtime"
+VERSION=1.24
+OS=xUbuntu_22.04
+
+echo "deb [signed-by=/usr/share/keyrings/libcontainers-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+echo "deb [signed-by=/usr/share/keyrings/libcontainers-crio-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
+
+mkdir -p /usr/share/keyrings
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | gpg --dearmor -o /usr/share/keyrings/libcontainers-archive-keyring.gpg
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/Release.key | gpg --dearmor -o /usr/share/keyrings/libcontainers-crio-archive-keyring.gpg
+
 apt update -qq >/dev/null 2>&1
-apt install -qq -y containerd apt-transport-https >/dev/null 2>&1
-mkdir /etc/containerd
-containerd config default > /etc/containerd/config.toml
-sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
-systemctl restart containerd
-systemctl enable containerd >/dev/null 2>&1
+apt install -qq -y cri-o cri-o-runc >/dev/null 2>&1
+systemctl restart crio
+systemctl enable crio >/dev/null 2>&1
 
 echo "[TASK 6] Add apt repo for kubernetes"
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - >/dev/null 2>&1
-apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main" >/dev/null 2>&1
+apt install -qq -y apt-transport-https ca-certificates curl >/dev/null 2>&1
+curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+apt update -qq >/dev/null 2>&1
 
 echo "[TASK 7] Install Kubernetes components (kubeadm, kubelet and kubectl)"
-apt install -qq -y kubeadm=1.24.0-00 kubelet=1.24.0-00 kubectl=1.24.0-00 >/dev/null 2>&1
+apt install -qq -y kubeadm=1.24.3-00 kubelet=1.24.3-00 kubectl=1.24.3-00 >/dev/null 2>&1
+apt-mark hold kubelet kubeadm kubectl
 
 echo "[TASK 8] Enable ssh password authentication"
 sed -i 's/^PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
