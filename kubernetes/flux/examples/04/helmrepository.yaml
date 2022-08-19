@@ -6,3 +6,12 @@ metadata:
 spec:
   interval: 1h0m0s
   url: https://charts.getup.io/getupcloud
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: apache-solr
+  namespace: flux-system
+spec:
+  interval: 1h0m0s
+  url: https://solr.apache.org/charts
