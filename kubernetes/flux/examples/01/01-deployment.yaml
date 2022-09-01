@@ -16,6 +16,6 @@ spec:
         app: 01-deploy
     spec:
       containers:
-      - image: nginx
-        name: nginx:alpine
+      - image: nginx:alpine
+        name: nginx
         resources: {}
