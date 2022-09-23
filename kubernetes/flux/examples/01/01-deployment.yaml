@@ -6,7 +6,7 @@ metadata:
   name: 01-deploy
   namespace: default
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: 01-deploy
