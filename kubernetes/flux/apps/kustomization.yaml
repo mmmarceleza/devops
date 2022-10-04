@@ -12,7 +12,7 @@ resources:
   # - ../../ingress-nginx/flux-kustomization.yaml  
 
   # Keycloak
-  - ../../keycloak/olm/flux-kustomization.yaml
+  # - ../../keycloak/olm/flux-kustomization.yaml
 
   # MetalLB
   # - ../../metallb/flux-kustomization.yaml
@@ -33,7 +33,7 @@ resources:
   # - ../../openebs/flux-kustomization.yaml
 
   # Operator Lifecycle Manager (OLM)
-  - ../../olm/flux-kustomization.yaml
+  # - ../../olm/flux-kustomization.yaml
 
   # rabbitmq
   # - ../../rabbitmq/flux/flux-kustomization.yaml
