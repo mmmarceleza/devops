@@ -43,3 +43,5 @@ resources:
 
   # teste
   # - ../../teste/flux-kustomization.yaml
+
+  - deployment.yaml
