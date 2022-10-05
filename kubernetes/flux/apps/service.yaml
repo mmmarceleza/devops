@@ -5,6 +5,7 @@ metadata:
     kustomize.toolkit.fluxcd.io/name: devops
     kustomize.toolkit.fluxcd.io/namespace: flux-system
   name: teste
+  namespace: default
 spec:
   ports:
   - port: 80
