@@ -42,4 +42,4 @@ resources:
   # - ../../redis/flux/flux-kustomization.yaml
 
   # teste
-  # - ../../teste/flux-kustomization.yaml
+  - ../../teste/flux-kustomization.yaml
