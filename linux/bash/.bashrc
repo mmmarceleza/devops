@@ -17,6 +17,7 @@
 
 alias l='ls -lah'
 alias g='git'
+alias git-show-alias='cat $HOME/.gitconfig'
 
 # Commands inside docker containers:
 alias redis-cli='docker run --rm --network=host redis:alpine redis-cli'
