@@ -16,6 +16,7 @@
 # Commom commands simplifications:
 
 alias l='ls -lah'
+alias g='git'
 
 # Commands inside docker containers:
 alias redis-cli='docker run --rm --network=host redis:alpine redis-cli'
