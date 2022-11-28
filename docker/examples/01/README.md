@@ -5,8 +5,7 @@
 On a Ubuntu VM install nodejs LTS with the folowing commands:
 
 ```
-curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - &&\
-sudo apt-get install -y nodejs
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && sudo apt-get install -y nodejs
 ```
 
 Reference: https://github.com/nodesource/distributions/blob/master/README.md
