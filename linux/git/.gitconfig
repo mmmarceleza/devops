@@ -1,9 +1,7 @@
 [alias]
-#	 lg   = log --oneline --graph --decorate
-#  lg   = !git log --oneline --graph --pretty=format:\"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30
   lg   = !git log --oneline --graph --pretty=format:\"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\"
   ci   = commit
-  st   = status
+  s    = status
   co   = checkout
   bl   = blame
   last = log -1 HEAD
@@ -13,9 +11,9 @@
   save = !git add -A && git commit -m 'chore: commit save point'
   undo = reset HEAD~1 --mixed
   done = !git push origin HEAD
+  pl   = !git pull origin main
 [user]
-  email = mmmarceleza@marcelo.com
-	name  = mmmarceleza
+	email = marcelo.melo@protonmail.com
+	name = mmmarceleza
 [core]
 	editor = vim
-
