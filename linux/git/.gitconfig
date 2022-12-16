@@ -12,6 +12,7 @@
   undo = reset HEAD~1 --mixed
   done = !git push origin HEAD
   pl   = !git pull origin main
+  d    = diff
 [user]
 	email = marcelo.melo@protonmail.com
 	name = mmmarceleza
