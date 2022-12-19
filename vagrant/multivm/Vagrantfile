@@ -30,6 +30,13 @@ Vagrant.configure("2") do |config|
         v.cpus    = 2
       end
 
+      node.vm.provision "file", source: "~/.ssh/vagrant.pub", destination: "/home/vagrant/.ssh/authorized_keys"
+
+      node.vm.provision "shell" do |s| 
+        s.inline = "mkdir -p /root/.ssh; cp /home/vagrant/.ssh/authorized_keys /root/.ssh/"
+        s.privileged = true
+      end 
+
     end
 
   end
