@@ -29,6 +29,7 @@ alias k3mimage='kubectl get pods -o=custom-columns="PODS:.metadata.name,IMAGES:.
 alias k3mpodresource='kubectl get pods -o=custom-columns="PODS:.metadata.name,NAMESPACE:.metadata.namespace,"REQUEST_CPU:".spec.containers[*].resources.requests.cpu,"REQUEST_MEM:".spec.containers[*].resources.requests.memory,"LIMITS_CPU:".spec.containers[*].resources.limits.cpu,"LIMITS_MEM:".spec.containers[*].resources.limits.memory"'
 alias k3mnoderesource='kubectl get nodes -o=custom-columns="NODE:.metadata.name,CPU:.status.capacity.cpu,MEMORY:.status.capacity.memory"'
 alias k3mlabelnode="kubectl get nodes -ojson | jq '.items[].metadata | .name,.labels'"
+alias k3mev='kubectl get events --sort-by='{.metadata.creationTimestamp}' | grep -v Normal'
 
 # Kind aliases:
 
