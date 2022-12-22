@@ -30,6 +30,7 @@ alias k3mpodresource='kubectl get pods -o=custom-columns="PODS:.metadata.name,NA
 alias k3mnoderesource='kubectl get nodes -o=custom-columns="NODE:.metadata.name,CPU:.status.capacity.cpu,MEMORY:.status.capacity.memory"'
 alias k3mlabelnode="kubectl get nodes -ojson | jq '.items[].metadata | .name,.labels'"
 alias k3mev='kubectl get events --sort-by='{.metadata.creationTimestamp}' | grep -v Normal'
+alias k3mevall='kubectl get events -A --sort-by='{.metadata.creationTimestamp}' | grep -v Normal'
 
 # Kind aliases:
 
