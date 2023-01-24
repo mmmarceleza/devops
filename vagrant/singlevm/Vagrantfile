@@ -15,7 +15,7 @@
 #--------------------------------------------------------------
 
 VAGRANT_BOX         = "generic/ubuntu2204"
-VAGRANT_BOX_VERSION = "4.0.2"
+VAGRANT_BOX_VERSION = "4.2.8"
 CPUS                = 2
 MEMORY              = 2048
 HOSTNAME            = "vagrant.local"

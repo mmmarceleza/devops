@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- install-v0.35.0.yaml 
+
+patches:
+- target:
+    kind: Deployment
+    namespace: flux-system
+  patch: |-
+    - op: replace
+      path: /spec/template/spec/nodeSelector
+      value: 
+        role: "infra"
+    - op: replace
+      path: /spec/template/spec/tolerations
+      value: 
+        - key: dedicated
+          value: infra
+          effect: NoSchedule
