@@ -37,6 +37,28 @@ alias k3mevall='kubectl get events -A --sort-by='{.metadata.creationTimestamp}' 
 alias kcc='kind create cluster --image kindest/node:v1.21.12'
 alias kdc='kind delete cluster'
 
+# Flux aliases:
+alias fgall='flux get all'
+alias fghr='flux get helmrelease'
+alias fgiall='flux get image all'
+alias fgip='flux get image policy'
+alias fgir='flux get image repository'
+alias fgiu='flux get image update'
+alias fgk='flux get kustomization'
+alias fgsall='flux get source all'
+alias fgsb='flux get source bucket'
+alias fgsc='flux get source chart'
+alias fgsg='flux get source git'
+alias fgsh='flux get source helm'
+alias frhr='flux reconcile helmrelease'
+alias frir='flux reconcile image repository'
+alias friu='flux reconcile image update'
+alias frk='flux reconcile kustomization'
+alias frsg='flux reconcile source git'
+alias frsh='flux reconcile source helm'
+alias frsgc='flux reconcile source git cluster'
+alias frkc='flux reconcile kustomization cluster'
+
 # Others:
 
 export EDITOR=vim

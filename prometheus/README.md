@@ -96,3 +96,17 @@ Restart and enable the prometheus:
 ```
 sudo systemctl enable --now prometheus
 ```
+
+## Authentication and Encryption
+
+Create the certificate
+
+```
+openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout node_exporter.key -out node_exporter.crt -subj "/C=BR/ST=MinasGerais/L=Ipatinga/O=marceleza/CN=localhost" -addext "subjectAltName = DNS:localhost"
+```
+
+Create the Hashing
+
+```
+htpasswd -nBC 12 "" | tr -d ':\n'
+```

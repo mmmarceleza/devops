@@ -1,131 +1,131 @@
-# #------------------------------------------------------------------------------
-# #                                 Appsmith
-# #------------------------------------------------------------------------------
-# ---
-# apiVersion: source.toolkit.fluxcd.io/v1beta1
-# kind: HelmRepository
-# metadata:
-#   name: appsmith
-#   namespace: flux-system
-# spec:
-#   interval: 1h
-#   url: https://helm.appsmith.com
+#------------------------------------------------------------------------------
+#                                 Appsmith
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: appsmith
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://helm.appsmith.com
 
-# #------------------------------------------------------------------------------
-# #                                 Autoscaler
-# #------------------------------------------------------------------------------
-# ---
-# apiVersion: source.toolkit.fluxcd.io/v1beta1
-# kind: HelmRepository
-# metadata:
-#   name: autoscaler
-#   namespace: flux-system
-# spec:
-#   interval: 1h
-#   url: https://kubernetes.github.io/autoscaler
+#------------------------------------------------------------------------------
+#                                 Autoscaler
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: autoscaler
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://kubernetes.github.io/autoscaler
 
-# #------------------------------------------------------------------------------
-# #                                  Bitnami
-# #------------------------------------------------------------------------------
-# ---
-# apiVersion: source.toolkit.fluxcd.io/v1beta1
-# kind: HelmRepository
-# metadata:
-#   name: bitnami
-#   namespace: flux-system
-# spec:
-#   interval: 1h
-#   url: https://charts.bitnami.com/bitnami
+#------------------------------------------------------------------------------
+#                                  Bitnami
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: bitnami
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://charts.bitnami.com/bitnami
 
-# #------------------------------------------------------------------------------
-# #                                  Jetstack
-# #------------------------------------------------------------------------------
-# ---
-# apiVersion: source.toolkit.fluxcd.io/v1beta1
-# kind: HelmRepository
-# metadata:
-#   name: jetstack
-#   namespace: flux-system
-# spec:
-#   interval: 1h
-#   url: https://charts.jetstack.io
+#------------------------------------------------------------------------------
+#                                  Jetstack
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: jetstack
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://charts.jetstack.io
 
-# #------------------------------------------------------------------------------
-# #                                   MetalLB
-# #------------------------------------------------------------------------------
-# ---
-# apiVersion: source.toolkit.fluxcd.io/v1beta1
-# kind: HelmRepository
-# metadata:
-#   name: metallb
-#   namespace: flux-system
-# spec:
-#   interval: 1h
-#   url: https://metallb.github.io/metallb
+#------------------------------------------------------------------------------
+#                                   MetalLB
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: metallb
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://metallb.github.io/metallb
 
-# #------------------------------------------------------------------------------
-# #                               Metrics Server
-# #------------------------------------------------------------------------------
-# ---
-# apiVersion: source.toolkit.fluxcd.io/v1beta1
-# kind: HelmRepository
-# metadata:
-#   name: metrics-server
-#   namespace: flux-system
-# spec:
-#   interval: 1h
-#   url: https://kubernetes-sigs.github.io/metrics-server/
+#------------------------------------------------------------------------------
+#                               Metrics Server
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: metrics-server
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://kubernetes-sigs.github.io/metrics-server/
 
-# #------------------------------------------------------------------------------
-# #                                  Mongodb
-# #------------------------------------------------------------------------------
-# ---
-# apiVersion: source.toolkit.fluxcd.io/v1beta1
-# kind: HelmRepository
-# metadata:
-#   name: mongodb
-#   namespace: flux-system
-# spec:
-#   interval: 1h
-#   url: https://mongodb.github.io/helm-charts
+#------------------------------------------------------------------------------
+#                                  Mongodb
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: mongodb
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://mongodb.github.io/helm-charts
 
 
 
-# #------------------------------------------------------------------------------
-# #                           Nginx Ingress Controller
-# #------------------------------------------------------------------------------
-# ---
-# apiVersion: source.toolkit.fluxcd.io/v1beta1
-# kind: HelmRepository
-# metadata:
-#   name: ingress-nginx
-#   namespace: flux-system
-# spec:
-#   interval: 1h
-#   url: https://kubernetes.github.io/ingress-nginx
+#------------------------------------------------------------------------------
+#                           Nginx Ingress Controller
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: ingress-nginx
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://kubernetes.github.io/ingress-nginx
 
-# #------------------------------------------------------------------------------
-# #                                   Openebs
-# #------------------------------------------------------------------------------
-# ---
-# apiVersion: source.toolkit.fluxcd.io/v1beta1
-# kind: HelmRepository
-# metadata:
-#   name: openebs
-#   namespace: flux-system
-# spec:
-#   interval: 1h
-#   url: https://openebs.github.io/charts
+#------------------------------------------------------------------------------
+#                                   Openebs
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: openebs
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://openebs.github.io/charts
 
-# #------------------------------------------------------------------------------
-# #                                  Velero
-# #------------------------------------------------------------------------------
-# ---
-# apiVersion: source.toolkit.fluxcd.io/v1beta1
-# kind: HelmRepository
-# metadata:
-#   name: velero
-#   namespace: flux-system
-# spec:
-#   interval: 1h
-#   url: https://vmware-tanzu.github.io/helm-charts
+#------------------------------------------------------------------------------
+#                                  Velero
+#------------------------------------------------------------------------------
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: velero
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://vmware-tanzu.github.io/helm-charts

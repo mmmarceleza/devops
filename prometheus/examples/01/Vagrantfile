@@ -1,0 +1,39 @@
+#--------------------------------------------------------------
+# Vagrant file to run a simple multi VM along libvirt provider.
+#
+# Reference docs:
+# 1 - https://github.com/vagrant-libvirt/vagrant-libvirt
+# 2 - https://wiki.archlinux.org/title/Vagrant
+# 3 - https://wiki.archlinux.org/title/Libvirt
+# 4 - https://wiki.archlinux.org/title/KVM
+# 5 - https://wiki.archlinux.org/title/QEMU
+# 6 - https://roboxes.org
+#--------------------------------------------------------------
+
+VAGRANT_BOX         = "generic/ubuntu2204"
+VAGRANT_BOX_VERSION = "4.2.8"
+CPUS_SERVER         = 2
+MEMORY_SERVER       = 2048
+
+Vagrant.configure(2) do |config|
+
+  # Prometheus Server
+  config.vm.define "prometheus" do |node|
+  
+    node.vm.box               = VAGRANT_BOX
+    node.vm.box_check_update  = false
+    node.vm.box_version       = VAGRANT_BOX_VERSION
+    node.vm.hostname          = "prometheus.marcelo.com"
+
+    node.vm.network "private_network", ip: "172.16.16.100"
+  
+    config.vm.provider :libvirt do |v|
+      v.memory  = MEMORY_SERVER
+      v.cpus    = CPUS_SERVER
+    end   
+
+    node.vm.provision "shell", path: "prometheus-install.sh"
+  
+  end
+
+end

@@ -1,0 +1,5 @@
+replicas: 2
+
+image:
+  repository: "nginx-alpine"
+  pullPolicy: IfNotPresent
