@@ -11,15 +11,17 @@
 #--------------------------------------------------------------
 Vagrant.configure("2") do |config|
 
-  NodeCount = 2
+  NodeCount = 3
 
   (1..NodeCount).each do |i|
 
     config.vm.define "machine#{i}" do |node|
 
-      node.vm.box               = "generic/ubuntu2004"
+      #node.vm.box               = "generic/ubuntu2004"
+      node.vm.box               = "generic/rhel8"
       node.vm.box_check_update  = false
-      node.vm.box_version       = "4.2.8"
+      #node.vm.box_version       = "4.2.8"
+      node.vm.box_version       = "4.2.16"
       node.vm.hostname          = "machine#{i}.example.com"
 
       node.vm.network "private_network", ip: "172.16.16.10#{i}"
