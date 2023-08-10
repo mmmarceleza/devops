@@ -1,0 +1,10 @@
+{
+  "name": "hello-world-app",
+  "version": "1.0.0",
+  "description": "Hello World Node.js App",
+  "main": "index.js",
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {}
+}
+

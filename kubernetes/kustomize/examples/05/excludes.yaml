@@ -1,0 +1,15 @@
+$patch: delete
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: default
+
+---
+$patch: delete
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: teste
+  namespace: default
+
