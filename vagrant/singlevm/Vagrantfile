@@ -14,8 +14,9 @@
 #                           VARIABLES
 #--------------------------------------------------------------
 
-VAGRANT_BOX         = "generic/ubuntu2204"
-VAGRANT_BOX_VERSION = "4.2.8"
+#VAGRANT_BOX         = "generic/ubuntu2204"
+VAGRANT_BOX         = "generic/arch"
+VAGRANT_BOX_VERSION = "4.3.6"
 CPUS                = 2
 MEMORY              = 2048
 HOSTNAME            = "vagrant.local"

@@ -4,10 +4,10 @@ echo "[TASK 1] Pull required containers"
 kubeadm config images pull >/dev/null 2>&1
 
 echo "[TASK 2] Initialize Kubernetes Cluster"
-kubeadm init --apiserver-advertise-address=10.10.10.2 --pod-network-cidr=192.168.0.0/16 >> /root/kubeinit.log 2>/dev/null
+kubeadm init --apiserver-advertise-address=172.16.16.100 --pod-network-cidr=192.168.0.0/16 >> /root/kubeinit.log 2>/dev/null
 
 echo "[TASK 3] Deploy Calico network"
-kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://docs.projectcalico.org/v3.18/manifests/calico.yaml >/dev/null 2>&1
+kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.3/manifests/calico.yaml >/dev/null 2>&1
 
 echo "[TASK 4] Generate and save cluster join command to /joincluster.sh"
 kubeadm token create --print-join-command > /joincluster.sh 2>/dev/null
@@ -19,7 +19,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 echo "[TASK 6] Enable aliases to use with kubectl"
 curl -fsSLo /root/.bash_aliases https://raw.githubusercontent.com/ahmetb/kubectl-aliases/master/.kubectl_aliases
-sed -ri 's/(kubectl.*) --watch/watch \1/g' .bash_aliases
+sed -ri 's/(kubectl.*) --watch/watch \1/g' /root/.bash_aliases
 
 echo "[TASK 6] Install kubectx and kubens with command line fuzzy find"
 apt install -qq -y git fzf >/dev/null 2>&1
@@ -47,7 +47,7 @@ echo "[TASK 7] Install krew"
   curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
   tar zxvf "${KREW}.tar.gz" &&
   ./"${KREW}" install krew
-)
+) >/dev/null 2>&1
 cat >>/root/.bashrc<<EOF
 
 #kubectl krew
@@ -66,7 +66,7 @@ cat >>/root/.bashrc<<EOF
 EOF
 
 echo "[TASK 9] install Helm"
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash >/dev/null 2>&1
+curl -s https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash >/dev/null 2>&1
 
 echo "[TASK 10] Install kustomize"
 curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash >/dev/null 2>&1

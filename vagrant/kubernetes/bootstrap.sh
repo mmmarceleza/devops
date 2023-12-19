@@ -29,31 +29,44 @@ net.ipv4.ip_forward                 = 1
 EOF
 sysctl --system >/dev/null 2>&1
 
-echo "[TASK 5] Install CRIO runtime"
-VERSION=1.24
-OS=xUbuntu_22.04
+echo "[TASK 5] Install Containerd runtime"
+sed -i 's/https:\/\/mirrors.edge.kernel.org\/ubuntu\//http:\/\/mirror.ufscar.br\/ubuntu\//' /etc/apt/sources.list
+apt update -qq -y >/dev/null 2>&1
+apt install containerd -qq -y >/dev/null 2>&1
+mkdir /etc/containerd
+containerd config default > /etc/containerd/config.toml
+sed -i 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml
+systemctl restart containerd
 
-echo "deb [signed-by=/usr/share/keyrings/libcontainers-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-echo "deb [signed-by=/usr/share/keyrings/libcontainers-crio-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
-
-mkdir -p /usr/share/keyrings
-curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | gpg --dearmor -o /usr/share/keyrings/libcontainers-archive-keyring.gpg
-curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/Release.key | gpg --dearmor -o /usr/share/keyrings/libcontainers-crio-archive-keyring.gpg
-
-apt update -qq >/dev/null 2>&1
-apt install -qq -y cri-o cri-o-runc >/dev/null 2>&1
-systemctl restart crio
-systemctl enable crio >/dev/null 2>&1
+#echo "[TASK 5] Install CRIO runtime"
+#VERSION=1.24
+#OS=xUbuntu_22.04
+#
+#echo "deb [signed-by=/usr/share/keyrings/libcontainers-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+#echo "deb [signed-by=/usr/share/keyrings/libcontainers-crio-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
+#
+#mkdir -p /usr/share/keyrings
+#curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | gpg --dearmor -o /usr/share/keyrings/libcontainers-archive-keyring.gpg
+#curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/Release.key | gpg --dearmor -o /usr/share/keyrings/libcontainers-crio-archive-keyring.gpg
+#
+#apt update -qq >/dev/null 2>&1
+#apt install -qq -y cri-o cri-o-runc >/dev/null 2>&1
+#systemctl restart crio
+#systemctl enable crio >/dev/null 2>&1
 
 echo "[TASK 6] Add apt repo for kubernetes"
 apt install -qq -y apt-transport-https ca-certificates curl >/dev/null 2>&1
-curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-apt update -qq >/dev/null 2>&1
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' > /etc/apt/sources.list.d/kubernetes.list
+#apt install -qq -y apt-transport-https ca-certificates curl >/dev/null 2>&1
+#curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+#echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+#apt update -qq >/dev/null 2>&1
 
 echo "[TASK 7] Install Kubernetes components (kubeadm, kubelet and kubectl)"
-apt install -qq -y kubeadm=1.24.3-00 kubelet=1.24.3-00 kubectl=1.24.3-00 >/dev/null 2>&1
-apt-mark hold kubelet kubeadm kubectl
+apt update -qq -y >/dev/null 2>&1
+apt install -qq -y kubeadm kubelet kubectl >/dev/null 2>&1
+apt-mark hold -qq kubelet kubeadm kubectl
 
 echo "[TASK 8] Enable ssh password authentication"
 sed -i 's/^PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
@@ -62,7 +75,7 @@ systemctl reload sshd
 
 echo "[TASK 9] Set root password"
 echo -e "kubeadmin\nkubeadmin" | passwd root >/dev/null 2>&1
-echo "export TERM=xterm" >> /etc/bash.bashrc
+#echo "export TERM=xterm" >> /etc/bash.bashrc
 
 echo "[TASK 10] Update /etc/hosts file"
 cat >>/etc/hosts<<EOF
