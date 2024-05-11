@@ -15,7 +15,7 @@ jobs:
   #------------------------------------------------------
   push:
     name: Publica a Imagem
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       #---------------------step 01-----------------------
       - name: Checkout
