@@ -1,2 +1,4 @@
 basic-app:
   replicaCount: 2
+  image:
+    repository: "nginx:alpine"
