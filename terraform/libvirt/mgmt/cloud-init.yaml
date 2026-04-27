@@ -1,0 +1,107 @@
+#cloud-config
+# Management RKE2 cluster bootstrap. Installs RKE2, then Helm, cert-manager, and Rancher.
+# References:
+#   https://docs.rke2.io/install/quickstart
+#   https://docs.rke2.io/known_issues
+#   https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster
+
+hostname: ${hostname}
+manage_etc_hosts: true
+
+users:
+  - name: ${ssh_username}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ${ssh_public_key}
+
+write_files:
+  # IPv4 and IPv6 packet forwarding
+  # https://kubernetes.io/docs/setup/production-environment/container-runtimes/#prerequisite-ipv4-forwarding-optional
+  - path: /etc/sysctl.d/90-rke2.conf
+    owner: root:root
+    permissions: "0644"
+    content: |
+      net.ipv4.ip_forward = 1
+      net.ipv4.conf.all.forwarding = 1
+      net.ipv6.conf.all.forwarding = 1
+
+  # Kernel modules required by Canal CNI and kube-proxy
+  - path: /etc/modules-load.d/k8s.conf
+    owner: root:root
+    permissions: "0644"
+    content: |
+      overlay
+      br_netfilter
+
+  # NetworkManager must not manage CNI virtual interfaces
+  # https://docs.rke2.io/known_issues#networkmanager
+  - path: /etc/NetworkManager/conf.d/rke2-canal.conf
+    owner: root:root
+    permissions: "0644"
+    content: |
+      [keyfile]
+      unmanaged-devices=interface-name:flannel*;interface-name:cali*;interface-name:tunl*;interface-name:vxlan.calico;interface-name:vxlan-v6.calico;interface-name:wireguard.cali;interface-name:wg-v6.cali
+
+  # RKE2 server config: TLS SAN must include the Rancher hostname so the API cert is trusted.
+  # https://docs.rke2.io/reference/server_config
+  - path: /etc/rancher/rke2/config.yaml
+    owner: root:root
+    permissions: "0600"
+    content: |
+      write-kubeconfig-mode: "0644"
+      tls-san:
+        - ${rancher_hostname}
+        - ${rancher_ip}
+
+runcmd:
+  # === OS prep ===
+  # https://docs.rke2.io/known_issues
+  - systemctl stop firewalld
+  - systemctl disable firewalld
+  - systemctl mask firewalld
+  - systemctl disable --now nm-cloud-setup.service nm-cloud-setup.timer || true
+  - systemctl mask nm-cloud-setup.service nm-cloud-setup.timer || true
+  - sed -i '/\sswap\s/d' /etc/fstab
+  - swapoff -a
+  - modprobe overlay
+  - modprobe br_netfilter
+  - sysctl --system
+  - setenforce 0
+  - sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
+  - systemctl reload NetworkManager
+
+  # === Install RKE2 server ===
+  # https://docs.rke2.io/install/methods
+  - curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION="${rke2_version}" INSTALL_RKE2_METHOD="tar" sh -
+  - systemctl enable rke2-server.service
+  - systemctl start rke2-server.service
+
+  # Wait for RKE2 to write the kubeconfig and report a Ready node
+  - until [ -f /etc/rancher/rke2/rke2.yaml ]; do sleep 5; done
+  - mkdir -p /root/.kube /usr/local/bin
+  - ln -sf /var/lib/rancher/rke2/bin/kubectl /usr/local/bin/kubectl
+  - ln -sf /etc/rancher/rke2/rke2.yaml /root/.kube/config
+  - until /usr/local/bin/kubectl get nodes 2>/dev/null | awk 'NR>1 {print $2}' | grep -qx Ready; do sleep 10; done
+
+  # === Install Helm ===
+  # https://helm.sh/docs/intro/install/
+  - curl -fsSL -o /tmp/get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+  - bash /tmp/get_helm.sh
+
+  # === Install cert-manager (Rancher prerequisite) ===
+  # https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster
+  - KUBECONFIG=/etc/rancher/rke2/rke2.yaml helm upgrade --install cert-manager cert-manager --repo=https://charts.jetstack.io --namespace cert-manager --create-namespace --set crds.enabled=true --version ${cert_manager_version} --wait --timeout 10m
+
+  # === Install Rancher ===
+  - KUBECONFIG=/etc/rancher/rke2/rke2.yaml helm upgrade --install rancher rancher --repo=https://releases.rancher.com/server-charts/stable --namespace cattle-system --create-namespace --set ingress.ingressClassName=nginx --set bootstrapPassword=${rancher_bootstrap_password} --set hostname=${rancher_hostname} --set replicas=1 --version ${rancher_version} --wait --timeout 15m
+
+  # Drop a remote-friendly kubeconfig in the user's home (server URL rewritten to the VM IP)
+  - install -m 0600 -o ${ssh_username} -g ${ssh_username} /etc/rancher/rke2/rke2.yaml /home/${ssh_username}/kubeconfig.yaml
+  - sed -i "s/127.0.0.1/${rancher_ip}/" /home/${ssh_username}/kubeconfig.yaml
+
+# Reboot once at the end so SELinux is fully disabled at the kernel level
+power_state:
+  mode: reboot
+  delay: now
+  message: Rebooting after RKE2 + Rancher install to fully disable SELinux
