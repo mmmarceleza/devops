@@ -1,4 +1,8 @@
 #cloud-config
+# RKE2 prerequisites applied on first boot.
+# References:
+#   https://docs.rke2.io/install/requirements
+#   https://docs.rke2.io/known_issues
 hostname: ${hostname}
 manage_etc_hosts: true
 
@@ -8,3 +12,71 @@ users:
     shell: /bin/bash
     ssh_authorized_keys:
       - ${ssh_public_key}
+
+write_files:
+  # IPv4 and IPv6 packet forwarding
+  # https://kubernetes.io/docs/setup/production-environment/container-runtimes/#prerequisite-ipv4-forwarding-optional
+  # https://docs.rke2.io/known_issues
+  - path: /etc/sysctl.d/90-rke2.conf
+    owner: root:root
+    permissions: "0644"
+    content: |
+      net.ipv4.ip_forward = 1
+      net.ipv4.conf.all.forwarding = 1
+      net.ipv6.conf.all.forwarding = 1
+
+  # Kernel modules required by the Canal CNI and kube-proxy
+  # https://kubernetes.io/docs/setup/production-environment/container-runtimes/#install-and-configure-prerequisites
+  - path: /etc/modules-load.d/k8s.conf
+    owner: root:root
+    permissions: "0644"
+    content: |
+      overlay
+      br_netfilter
+
+  # NetworkManager must not manage CNI virtual interfaces
+  # https://docs.rke2.io/known_issues#networkmanager
+  - path: /etc/NetworkManager/conf.d/rke2-canal.conf
+    owner: root:root
+    permissions: "0644"
+    content: |
+      [keyfile]
+      unmanaged-devices=interface-name:flannel*;interface-name:cali*;interface-name:tunl*;interface-name:vxlan.calico;interface-name:vxlan-v6.calico;interface-name:wireguard.cali;interface-name:wg-v6.cali
+
+runcmd:
+  # firewalld conflicts with the default Canal networking stack
+  # https://docs.rke2.io/known_issues#firewalld-conflicts-with-default-networking
+  - systemctl stop firewalld
+  - systemctl disable firewalld
+  - systemctl mask firewalld
+
+  # nm-cloud-setup adds routing tables that interfere with CNI on RHEL 8.4+
+  # https://docs.rke2.io/known_issues#nm-cloud-setup
+  - systemctl disable --now nm-cloud-setup.service nm-cloud-setup.timer || true
+  - systemctl mask nm-cloud-setup.service nm-cloud-setup.timer || true
+
+  # Disable swap (Kubernetes prerequisite)
+  # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#swap-configuration
+  - sed -i '/\sswap\s/d' /etc/fstab
+  - swapoff -a
+
+  # Load required kernel modules at runtime (modules-load.d handles future boots)
+  - modprobe overlay
+  - modprobe br_netfilter
+
+  # Apply sysctl settings written above
+  - sysctl --system
+
+  # Disable SELinux. Lab choice only; production should keep SELinux enforcing
+  # and install rke2-selinux. See https://docs.rke2.io/security/selinux
+  - setenforce 0
+  - sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
+
+  # Reload NetworkManager so the unmanaged-devices keyfile takes effect
+  - systemctl reload NetworkManager
+
+# Reboot once so SELinux is fully disabled at the kernel level
+power_state:
+  mode: reboot
+  delay: now
+  message: Rebooting to fully disable SELinux and apply kernel-level changes

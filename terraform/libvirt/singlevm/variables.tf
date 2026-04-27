@@ -13,13 +13,13 @@ variable "private_network_cidr" {
 variable "ssh_public_key_path" {
   type        = string
   description = "Path to the SSH public key injected into the VM."
-  default     = "~/.ssh/id_ed25519.pub"
+  default     = "~/.ssh/vagrant.pub"
 }
 
 variable "ssh_username" {
   type        = string
   description = "Default user created by cloud-init."
-  default     = "ubuntu"
+  default     = "opc"
 }
 
 variable "storage_pool" {
@@ -41,12 +41,12 @@ variable "vm_cpus" {
 
 variable "vm_disk_size_gb" {
   type        = number
-  description = "Disk size in GB."
-  default     = 20
+  description = "Disk size in GB. Must be at least as large as the base image virtual size (Oracle Linux 9 cloud image is 37 GiB)."
+  default     = 40
 
   validation {
-    condition     = var.vm_disk_size_gb > 0
-    error_message = "vm_disk_size_gb must be greater than 0."
+    condition     = var.vm_disk_size_gb >= 37
+    error_message = "vm_disk_size_gb must be at least 37 (Oracle Linux 9 cloud image virtual size)."
   }
 }
 
@@ -59,7 +59,7 @@ variable "vm_hostname" {
 variable "vm_image_url" {
   type        = string
   description = "URL or local path to the base cloud image (qcow2)."
-  default     = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
+  default     = "https://yum.oracle.com/templates/OracleLinux/OL9/u5/x86_64/OL9U5_x86_64-kvm-b259.qcow2"
 }
 
 variable "vm_memory" {
